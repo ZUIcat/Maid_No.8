@@ -1,9 +1,7 @@
-import util.log
+from util.log import Logger
+from helper.bandizip import BandizipHelper
 
-###
-logger = util.log.logger
 
-###
 class CommonData:
     APP_NAME = "Maid No.8"
     APP_VER = "0.0.1"

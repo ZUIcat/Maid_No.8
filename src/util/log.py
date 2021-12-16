@@ -9,7 +9,7 @@ def get_now_time_str() -> str:
     return f"{now_time.year:04}/{now_time.month:02}/{now_time.day:02} {now_time.hour:02}.{now_time.minute:02}.{now_time.second:02}.{now_time.microsecond:06}"
 
 
-class logger:
+class Logger:
     ###
     # __instance = None
     # __instance_lock = threading.Lock()

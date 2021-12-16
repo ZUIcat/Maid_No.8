@@ -6,7 +6,7 @@ from common import *
 
 def check_network_connection() -> bool:
     test_url: str = "www.baidu.com"
-    test_command: str = f"ping {test_url} >> nul"
+    test_command: str = fr"ping {test_url} 1>nul 2>nul"
     ret_code: int = os.system(test_command)
     return ret_code == 0
 
@@ -24,34 +24,34 @@ def main():
     hibernate_lag_time: float = 60
 
     os.makedirs(CommonData.DIR_PATH, exist_ok=True)
-    logger.set_write_to_external(log_file_path)
+    Logger.set_write_to_external(log_file_path)
 
-    logger.log(f"=== The {CommonData.APP_NAME} v{CommonData.APP_VER} Start ===")
+    Logger.log(f"=== The {CommonData.APP_NAME} v{CommonData.APP_VER} Start ===")
 
     while True:
         network_connection = check_network_connection()
-        logger.log(f"The network connection state is: {network_connection}")
+        Logger.log(f"The network connection state is: {network_connection}")
 
         if not network_connection:
-            logger.error("Retry start...")
+            Logger.error("Retry start...")
             retry_ret: bool = False
             for i in range(connection_error_max_retry_num):
                 network_connection = check_network_connection()
-                logger.log(f"(Retry {i + 1:02}) The network connection state is: {network_connection}")
+                Logger.log(f"(Retry {i + 1:02}) The network connection state is: {network_connection}")
                 if network_connection:
                     retry_ret = True
                     break
                 time.sleep(connection_error_lag_time)
-            logger.error("Retry end...")
+            Logger.error("Retry end...")
 
             if not retry_ret:
-                logger.error("Try to hibernate the computer.")
+                Logger.error("Try to hibernate the computer.")
                 hibernate_computer()
                 time.sleep(hibernate_lag_time)
 
         time.sleep(lag_time)
 
-    logger.log(f"=== The {CommonData.APP_NAME} v{CommonData.APP_VER} End ===")
+    Logger.log(f"=== The {CommonData.APP_NAME} v{CommonData.APP_VER} End ===")
 
 
 if __name__ == "__main__":

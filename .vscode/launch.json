@@ -8,6 +8,14 @@
             "cwd": "${workspaceFolder}",
             "program": "${workspaceFolder}\\src\\main.py",
             "console": "externalTerminal",
-        }
+        },
+        {
+            "name": "Python: test",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}\\src\\test.py",
+            "console": "externalTerminal",
+        },
     ]
 }

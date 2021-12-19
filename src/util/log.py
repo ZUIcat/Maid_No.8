@@ -3,13 +3,7 @@ import datetime
 from typing import Optional
 
 
-def get_now_time_str() -> str:
-    # return time.strftime("%Y/%m/%d %H:%M:%S")
-    now_time: datetime.datetime = datetime.datetime.now()
-    return f"{now_time.year:04}/{now_time.month:02}/{now_time.day:02} {now_time.hour:02}.{now_time.minute:02}.{now_time.second:02}.{now_time.microsecond:06}"
-
-
-class Logger:
+class LogUtil:
     ###
     # __instance = None
     # __instance_lock = threading.Lock()
@@ -56,10 +50,11 @@ class Logger:
         level = msg_type["level"]
         if level > cls.__msg_level:
             return
-        print(f"[{tag}][{get_now_time_str()}]", *args)
+        print(f"[{tag}][{cls.get_now_time_str()}]", *args)
         if cls.__write_to_external_path is not None:
-            with open(cls.__write_to_external_path, mode="a+", encoding="UTF-8") as fp: # TODO 始终持有文件句柄 而不是每次打开
-                print(f"[{tag}][{get_now_time_str()}]", *args, file=fp)
+            # TODO 始终持有文件句柄 而不是每次打开
+            with open(cls.__write_to_external_path, mode="a+", encoding="UTF-8") as fp:
+                print(f"[{tag}][{cls.get_now_time_str()}]", *args, file=fp)
 
     @classmethod
     def log(cls, *args: object):
@@ -76,3 +71,10 @@ class Logger:
     @classmethod
     def dev(cls, *args: object):
         cls.__output_msg(cls.dev_msg, *args)
+
+    ###
+    @classmethod
+    def get_now_time_str(cls) -> str:
+        # return time.strftime("%Y/%m/%d %H:%M:%S")
+        now_time: datetime.datetime = datetime.datetime.now()
+        return f"{now_time.year:04}/{now_time.month:02}/{now_time.day:02} {now_time.hour:02}.{now_time.minute:02}.{now_time.second:02}.{now_time.microsecond:06}"

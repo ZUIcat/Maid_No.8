@@ -3,8 +3,8 @@ from common import *
 
 
 def main() -> int:
-    file_max_size: int = 1
-    # file_max_size: int = 50 * 1024 * 1024
+    # file_max_size: int = 1
+    file_max_size: int = 50 * 1024 * 1024
     delete_after_extract: bool = True
     log_file_path: str = os.path.join(CommonData.DIR_PATH, "applog.log")
 
@@ -19,7 +19,7 @@ def main() -> int:
         return -1
 
     dir_path: str = PathUtil.remove_quotes(input("Drag in the root dir: "))
-    file_path_list = PathUtil.walk_files(dir_path, [".rar", ".zip", ".7z"])
+    file_path_list = PathUtil.walk_files(dir_path, [".rar", ".zip", ".7z"])  # TODO 分卷压缩包
 
     file_path_list = [file_path for file_path in file_path_list if PathUtil.get_path_size(file_path) > file_max_size]
 
@@ -42,7 +42,7 @@ def main() -> int:
         if ret_code == 0:
             if delete_after_extract:
                 LogUtil.log(f"Try to delete {file_path}")
-                Win32Util.del_to_trash(file_path)
+                Win32Util.del_to_trash(file_path)  # TODO 分卷压缩包
         else:
             LogUtil.error(f"Cannot extract the file {file_path}")
     LogUtil.log("Extracting finished.")
@@ -51,9 +51,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    LogUtil.log(
-        f"=== The {CommonData.APP_NAME} v{CommonData.APP_VER} Start ===")
+    LogUtil.log(f"=== The {CommonData.APP_NAME} v{CommonData.APP_VER} Start ===")
     main_ret_code = main()
-    LogUtil.log(
-        f"=== The {CommonData.APP_NAME} v{CommonData.APP_VER} End With {main_ret_code} ===")
+    LogUtil.log(f"=== The {CommonData.APP_NAME} v{CommonData.APP_VER} End With {main_ret_code} ===")
     input("Press any key to exit.")
